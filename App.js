@@ -28,7 +28,7 @@ const TabNav = TabNavigator({
     navigationOptions: {
       title: `Add Deck`,
       tabBarIcon: () => (
-        <Ionicons name="ios-add-circle" size={30} />
+        <Ionicons name="ios-add" size={30} />
       )
     },
   }
