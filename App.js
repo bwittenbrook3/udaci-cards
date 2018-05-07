@@ -7,7 +7,7 @@ import configureStore from './store'
 import { Provider } from 'react-redux'
 
 import DecksList from './components/DecksList'
-import NewDeckScreen from './components/NewDeckScreen'
+import NewDeckView from './components/NewDeckView'
 import DeckView from './components/DeckView'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => (
@@ -27,7 +27,7 @@ const TabNav = TabNavigator({
     },
   },
   NewDecks: {
-    screen: NewDeckScreen,
+    screen: NewDeckView,
     navigationOptions: {
       title: `Add Deck`,
       tabBarIcon: () => (
