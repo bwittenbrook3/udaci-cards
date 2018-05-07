@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import configureStore from './store'
+import { Provider } from 'react-redux'
 
-import DecksScreen from './components/DecksScreen'
+import DecksList from './components/DecksList'
 import NewDeckScreen from './components/NewDeckScreen'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => (
@@ -21,7 +23,7 @@ const DeckView = () => (
 
 const TabNav = TabNavigator({
   Decks: {
-    screen: DecksScreen,
+    screen: DecksList,
     navigationOptions: {
       title: `Decks`,
       tabBarIcon: () => (
@@ -50,14 +52,19 @@ const MainNav = StackNavigator({
   }
 })
 
+const store = configureStore()
+console.log(store)
+
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <UdaciStatusBar />
-        <MainNav />
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <UdaciStatusBar />
+          <MainNav />
+        </View>
+      </Provider>
     );
   }
 }

@@ -1,23 +1,32 @@
 import React from 'react'
-import { StyleSheet, FlatList, View, Dimensions } from 'react-native'
+import { StyleSheet, FlatList, View, Dimensions, Text } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 
 const { width } = Dimensions.get('window')
-
-import Deck from './Deck'
 
 const data = [
   {key: 'udacicards'},
   {key: 'b'}
 ]
 
+const DeckItem = ({ name, onPress }) => (
+  <TouchableOpacity
+    style={styles.deckItem}
+    onPress={onPress}
+  >
+    <Text style={styles.deckItemHeader}>{name}</Text>
+    <Text>33 cards</Text>
+  </TouchableOpacity>
+)
+
 export default ({ navigation }) => (
   <View style={styles.container}>
     <FlatList
       data={data}
       renderItem={({item}) =>
-        <Deck
+        <DeckItem
           name={item.key}
-          navigation={navigation}
+          onPress={() => navigation.navigate('DeckView')}
         />
       }
       ItemSeparatorComponent={() => (
@@ -35,7 +44,16 @@ const styles = StyleSheet.create({
   },
   seperator: {
     borderBottomWidth: 2,
-    borderBottomColor: "#eee",
+    borderBottomColor: "#aaa",
     width: width
+  },
+  deckItem: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 150
+  },
+  deckItemHeader: {
+    fontSize: 35
   }
 })
