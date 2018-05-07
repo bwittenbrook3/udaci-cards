@@ -26,7 +26,7 @@ export default ({ navigation }) => (
       renderItem={({item}) =>
         <DeckItem
           name={item.key}
-          onPress={() => navigation.navigate('DeckView')}
+          onPress={() => navigation.navigate('DeckView', {deck: item.key})}
         />
       }
       ItemSeparatorComponent={() => (

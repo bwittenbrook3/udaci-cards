@@ -8,16 +8,11 @@ import { Provider } from 'react-redux'
 
 import DecksList from './components/DecksList'
 import NewDeckScreen from './components/NewDeckScreen'
+import DeckView from './components/DeckView'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => (
   <View style={{height: Constants.statusBarHeight }}>
     <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
-  </View>
-)
-
-const DeckView = () => (
-  <View>
-    <Text>Deck View</Text>
   </View>
 )
 
@@ -52,14 +47,10 @@ const MainNav = StackNavigator({
   }
 })
 
-const store = configureStore()
-console.log(store)
-
-
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={store}>
+      <Provider store={configureStore()}>
         <View style={{flex: 1}}>
           <UdaciStatusBar />
           <MainNav />
