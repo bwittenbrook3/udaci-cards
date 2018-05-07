@@ -10,12 +10,15 @@ const data = [
   {key: 'b'}
 ]
 
-export default ({}) => (
+export default ({ navigation }) => (
   <View style={styles.container}>
     <FlatList
       data={data}
       renderItem={({item}) =>
-        <Deck name={item.key}/>
+        <Deck
+          name={item.key}
+          navigation={navigation}
+        />
       }
       ItemSeparatorComponent={() => (
         <View style={styles.seperator} />

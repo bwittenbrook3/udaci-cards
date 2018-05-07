@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -10,6 +10,12 @@ import NewDeckScreen from './components/NewDeckScreen'
 const UdaciStatusBar = ({backgroundColor, ...props}) => (
   <View style={{height: Constants.statusBarHeight }}>
     <StatusBar translucent backgroundColor={backgroundColor} {...props}/>
+  </View>
+)
+
+const DeckView = () => (
+  <View>
+    <Text>Deck View</Text>
   </View>
 )
 
@@ -35,12 +41,22 @@ const TabNav = TabNavigator({
 });
 
 
+const MainNav = StackNavigator({
+  Home: {
+    screen: TabNav
+  },
+  DeckView: {
+    screen: DeckView
+  }
+})
+
+
 export default class App extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
         <UdaciStatusBar />
-        <TabNav />
+        <MainNav />
       </View>
     );
   }

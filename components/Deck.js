@@ -4,8 +4,11 @@ import { Dimensions } from 'react-native'
 
 const { width } = Dimensions.get('window')
 
-export default ({ name }) => (
-  <TouchableOpacity style={styles.container}>
+export default ({ name, navigation }) => (
+  <TouchableOpacity
+    style={styles.container}
+    onPress={() => navigation.navigate('DeckView')}
+  >
     <Text style={styles.header}>{name}</Text>
     <Text style={styles.subtitle}>33 cards</Text>
   </TouchableOpacity>
