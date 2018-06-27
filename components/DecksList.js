@@ -47,16 +47,13 @@ class DecksList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const decks =
-    _.values(state.decks)
-    .map(d => ({
-      ...d,
-      key: d.title
-    }))
+const addKeyToDecks = (decks) => {
+  return decks.map(d => ({ ...d, key: d.title }))
+}
 
+const mapStateToProps = (state) => {
   return {
-    decks: decks
+    decks: addKeyToDecks(_.values(state.decks))
   }
 }
 

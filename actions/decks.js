@@ -1,4 +1,4 @@
-import { ADD_DECK, GET_DECKS } from './types'
+import { ADD_DECK, GET_DECKS, ADD_CARD_TO_DECK } from './types'
 import { AsyncStorage } from "react-native"
 import _ from 'lodash'
 
@@ -74,5 +74,38 @@ export function saveDeckTitle(title) {
       type: ADD_DECK,
       deck: decks[title]
     })
+  }
+}
+
+export function addCardToDeck(deckTitle, card) {
+  return async dispatch => {
+    let decks = await getDecks(),
+        deck = decks[deckTitle]
+
+    console.log(deckTitle)
+    console.log(card)
+
+
+    deck = {
+      ...deck,
+      questions: [
+        ...deck.questions,
+        card
+      ]
+    }
+
+    decks = {
+      ...decks,
+      [deck.title]: deck
+    }
+
+    await saveDecks(decks)
+
+    dispatch({
+      type: ADD_CARD_TO_DECK,
+      deckTitle,
+      card
+    })
+
   }
 }
