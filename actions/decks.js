@@ -1,5 +1,6 @@
 import { ADD_DECK, GET_DECKS, ADD_CARD_TO_DECK } from './types'
 import { AsyncStorage } from "react-native"
+import { scheduleNotification } from '../utils/notifications'
 import _ from 'lodash'
 
 const KEY = '@UdaciCards:decks'
@@ -47,6 +48,7 @@ export function setupDecks() {
 
     let decks = await getDecks()
     if ( decks === null) {
+      await scheduleNotification()
       decks = initialDecks
       saveDecks(initialDecks)
     }
@@ -81,11 +83,7 @@ export function addCardToDeck(deckTitle, card) {
   return async dispatch => {
     let decks = await getDecks(),
         deck = decks[deckTitle]
-
-    console.log(deckTitle)
-    console.log(card)
-
-
+        
     deck = {
       ...deck,
       questions: [

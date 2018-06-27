@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import _ from 'lodash'
 import Button from 'react-native-button'
 import { connect } from 'react-redux'
+import { scheduleNotification } from '../utils/notifications'
 
 const { width } = Dimensions.get('window')
-
 const randomizeQuestions = (questions) => _.shuffle(questions)
 
 class Quiz extends Component {
@@ -101,6 +101,12 @@ const parseQuestions = questions => {
 const Score = ({questions, restart, backToDeck }) => {
 
   const correctQuestions = questions.filter(q => q.response === 'correct')
+
+  const { remainingQuestions } = parseQuestions(questions)
+  if (questions.length > 0 && remainingQuestions.length === 0) {
+    // reset notifications for 1 day from now since we have finished a quiz
+    scheduleNotification()
+  }
 
   return (
     <View style={styles.container}>
