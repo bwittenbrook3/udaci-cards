@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import Button from 'react-native-button'
-import { getDeck } from '../api/deck'
 import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')

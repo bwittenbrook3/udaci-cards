@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 
-class NewCardView extends Component {
+class NewCard extends Component {
 
   static navigationOptions = ({navigation}) => {
     const { deckName } = navigation.state.params
@@ -19,4 +19,4 @@ class NewCardView extends Component {
   }
 }
 
-export default NewCardView
+export default NewCard

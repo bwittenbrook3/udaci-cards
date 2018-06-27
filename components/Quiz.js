@@ -2,26 +2,21 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import _ from 'lodash'
 import Button from 'react-native-button'
-import { getDeck } from '../api/deck'
+import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')
 
 const randomizeQuestions = (questions) => _.shuffle(questions)
 
-class QuizView extends Component {
+class Quiz extends Component {
 
   state = {
-    questions: [],
-    deck: null
+    questions: []
   }
 
-  async componentDidMount() {
-    const { deckName } = this.props.navigation.state.params
-    console.log(deckName)
-    const deck = await getDeck(deckName)
+  componentDidMount() {
     this.setState({
-      deck,
-      questions: randomizeQuestions(deck.questions)
+      questions: randomizeQuestions(this.props.deck.questions)
     })
   }
 
@@ -37,8 +32,8 @@ class QuizView extends Component {
   }
 
   render() {
-    const { questions, isViewingAnswer, deck } =  this.state
-    const { navigation } = this.props
+    const { questions, isViewingAnswer } =  this.state
+    const { navigation, deck } = this.props
 
     const {
       remainingQuestions,
@@ -57,7 +52,7 @@ class QuizView extends Component {
 
     if (remainingQuestions.length > 0 ) {
       return (
-        <Quiz
+        <Question
           questions={questions}
           isViewingAnswer={isViewingAnswer}
           toggleViewAnswer={toggleViewAnswer}
@@ -144,7 +139,7 @@ const Score = ({questions, restart, backToDeck }) => {
   )
 }
 
-const Quiz =  ({ questions, isViewingAnswer, toggleViewAnswer, answer}) => {
+const Question =  ({ questions, isViewingAnswer, toggleViewAnswer, answer}) => {
 
   const {
     remainingQuestions,
@@ -214,7 +209,15 @@ const Quiz =  ({ questions, isViewingAnswer, toggleViewAnswer, answer}) => {
   )
 }
 
-export default QuizView
+const mapStateToProps = (state, props) => {
+  const { deckName } = props.navigation.state.params
+
+  return {
+    deck: state.decks[deckName]
+  }
+}
+
+export default connect(mapStateToProps)(Quiz)
 
 const styles = StyleSheet.create({
   container: {

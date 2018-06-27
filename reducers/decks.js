@@ -1,9 +1,6 @@
 import { GET_DECKS, ADD_DECK } from '../actions/types'
 
-
-
 const decks = (state = {}, action) => {
-  console.log(action)
   switch (action.type) {
     case GET_DECKS:
       return {

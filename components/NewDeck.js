@@ -12,12 +12,9 @@ import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')
 
-class NewDeckView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: '',
-    };
+class NewDeck extends Component {
+  state = {
+    text: ''
   }
 
   render() {
@@ -48,8 +45,11 @@ class NewDeckView extends Component {
           style={{fontSize: 20, color: 'white'}}
           styleDisabled={{color: 'red'}}
           onPress={async () => {
-            await saveDeckTitle(this.state.text)
+            const title = this.state.text
+            await saveDeckTitle(title)
+            this.setState({text: ''})
             navigation.navigate('Decks')
+            navigation.navigate('DeckView', {deckName: title})
           }}>
 
           Submit
@@ -89,4 +89,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(NewDeckView)
+export default connect(null, mapDispatchToProps)(NewDeck)

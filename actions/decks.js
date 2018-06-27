@@ -29,25 +29,38 @@ const initialDecks = {
   }
 }
 
+const saveDecks = async (decks) => {
+  await AsyncStorage.setItem(KEY, JSON.stringify(decks))
+}
+
+const getDecks = async () => {
+  let decks = await AsyncStorage.getItem(KEY)
+  if (decks) {
+    return JSON.parse(decks)
+  } else {
+    return null;
+  }
+}
+
 export function setupDecks() {
   return async dispatch => {
 
-    let decks = await AsyncStorage.getItem(KEY)
+    let decks = await getDecks()
     if ( decks === null) {
-      decks = JSON.stringify(initialDecks)
-      await AsyncStorage.setItem(KEY, JSON.stringify(decks))
+      decks = initialDecks
+      saveDecks(initialDecks)
     }
 
     dispatch({
       type: GET_DECKS,
-      decks: JSON.parse(decks)
+      decks: decks
     })
   }
 }
 
 export function saveDeckTitle(title) {
   return async dispatch => {
-    let decks = JSON.parse(await AsyncStorage.getItem(KEY))
+    let decks = await getDecks()
     decks = {
       ...decks,
       [title]: {
@@ -55,7 +68,7 @@ export function saveDeckTitle(title) {
         questions: []
       }
     }
-    await AsyncStorage.setItem(KEY, JSON.stringify(decks))
+    await saveDecks(decks)
 
     dispatch({
       type: ADD_DECK,
