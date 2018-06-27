@@ -2,7 +2,7 @@
 
 by Bradley Wittenbrook
 
-This project is the final project as part of the Udacity React Nanodegree.
+This project is the final project as part of the Udacity React nanodegree program. It was developed to target iOS devices, and no guarantees are made on how it performs on Andriod.
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
