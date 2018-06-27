@@ -7,6 +7,8 @@ import {
   Dimensions
 } from 'react-native'
 import Button from 'react-native-button'
+import { saveDeckTitle } from '../actions/decks'
+import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')
 
@@ -19,6 +21,7 @@ class NewDeckView extends Component {
   }
 
   render() {
+    const { saveDeckTitle, navigation } = this.props
     return (
       <KeyboardAvoidingView
         enabled
@@ -35,10 +38,20 @@ class NewDeckView extends Component {
           placeholder="Deck Title"
         />
         <Button
-          containerStyle={{padding:10, height:45, overflow:'hidden', borderRadius:4, backgroundColor: '#515E91'}}
+          containerStyle={{
+            padding:10,
+            height:45,
+            overflow:'hidden',
+            borderRadius:4,
+            backgroundColor: '#515E91'
+          }}
           style={{fontSize: 20, color: 'white'}}
           styleDisabled={{color: 'red'}}
-          onPress={() => console.log('Add deck')}>
+          onPress={async () => {
+            await saveDeckTitle(this.state.text)
+            navigation.navigate('Decks')
+          }}>
+
           Submit
         </Button>
       </KeyboardAvoidingView>
@@ -69,4 +82,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export default NewDeckView
+const mapDispatchToProps = (dispatch) => {
+
+  return {
+    saveDeckTitle: async title => dispatch(await saveDeckTitle(title))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(NewDeckView)

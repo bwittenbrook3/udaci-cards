@@ -3,12 +3,16 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Constants } from 'expo'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { initializeDecks } from './api/deck'
+
 import configureStore from './store'
 import { Provider } from 'react-redux'
 
 import DecksList from './components/DecksList'
 import NewDeckView from './components/NewDeckView'
 import DeckView from './components/DeckView'
+import NewCardView from './components/NewCardView'
+import QuizView from './components/QuizView'
 
 const UdaciStatusBar = ({backgroundColor, ...props}) => (
   <View style={{height: Constants.statusBarHeight }}>
@@ -44,10 +48,22 @@ const MainNav = StackNavigator({
   },
   DeckView: {
     screen: DeckView
+  },
+  NewCardView: {
+    screen: NewCardView
+  },
+  QuizView: {
+    screen: QuizView
   }
 })
 
 export default class App extends React.Component {
+
+  constructor(props) {
+    super()
+    initializeDecks()
+  }
+
   render() {
     return (
       <Provider store={configureStore()}>

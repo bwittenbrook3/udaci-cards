@@ -1,40 +1,72 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { StyleSheet, FlatList, View, Dimensions, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native'
+import { setupDecks } from '../actions/decks'
+import { connect } from 'react-redux'
+import _ from 'lodash'
+
 
 const { width } = Dimensions.get('window')
 
-const data = [
-  {key: 'udacicards'},
-  {key: 'b'}
-]
-
-const DeckItem = ({ name, onPress }) => (
+const DeckItem = ({ deck, onPress }) => (
   <TouchableOpacity
     style={styles.deckItem}
     onPress={onPress}
   >
-    <Text style={styles.deckItemHeader}>{name}</Text>
-    <Text>33 cards</Text>
+    <Text style={styles.deckItemHeader}>{deck.title}</Text>
+    <Text>{deck.questions.length} cards</Text>
   </TouchableOpacity>
 )
 
-export default ({ navigation }) => (
-  <View style={styles.container}>
-    <FlatList
-      data={data}
-      renderItem={({item}) =>
-        <DeckItem
-          name={item.key}
-          onPress={() => navigation.navigate('DeckView', {deck: item.key})}
+class DecksList extends Component {
+
+  componentDidMount() {
+    const { initializeDecks } = this.props
+    initializeDecks()
+  }
+
+  render() {
+    const { navigation, decks } = this.props
+
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={decks}
+          renderItem={({item}) =>
+            <DeckItem
+              deck={item}
+              onPress={() => navigation.navigate('DeckView', {deckName: item.title})}
+            />
+          }
+          ItemSeparatorComponent={() => (
+            <View style={styles.seperator} />
+          )}
         />
-      }
-      ItemSeparatorComponent={() => (
-        <View style={styles.seperator} />
-      )}
-    />
-  </View>
-)
+      </View>
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  const decks =
+    _.values(state.decks)
+    .map(d => ({
+      ...d,
+      key: d.title
+    }))
+
+  return {
+    decks: decks
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    initializeDecks: async () => dispatch( await setupDecks()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DecksList)
 
 const styles = StyleSheet.create({
   container: {
